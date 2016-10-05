@@ -1,0 +1,17 @@
+body {
+  font-family: 'Quicksand', sans-serif; }
+
+header {
+  text-align: center; }
+
+section {
+  text-align: center; }
+
+.hidden {
+  display: none;
+  visibility: hidden; }
+
+footer {
+  text-align: center; }
+
+/*# sourceMappingURL=main.css.map */

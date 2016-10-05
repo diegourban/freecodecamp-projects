@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Diego Leonardo Urban">
+		
+		<title>Pomodoro</title>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css" />
+		
+		<!-- Animate -->
+		<link rel="stylesheet" href="vendors/animate/animate.min.css" />
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css" />
+		
+		<!-- Google font -->
+		<link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+		
+		<!-- My Styles -->
+		<link rel="stylesheet" href="resources/css/main.css" />
+		
+		<!-- jQuery -->
+		<script src="vendors/jquery/jquery-2.2.4.min.js"></script>
+		
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="vendors/bootstrap/bootstrap.min.js"></script>
+		
+		<!-- My Scripts -->
+		<script src="resources/js/pomodoro.js"></script>
+	</head>
+	
+	<body>
+		<header>
+			<h1 title="Pomodoro">pomodoro</h1>
+		</header>
+		<section>
+			<div class="container">	
+				<div class="row">
+					<audio id="endedAudio" src="resources/audio/gentle-alarm.mp3">
+						<p>Your browser does not support audio element.</p>
+					</audio>
+					<h1>
+						<label id="minutes">00</label>:<label id="seconds">00</label>
+					</h1>
+				</div>
+				
+				<div class="row">
+					<button name="start" type="button" class="btn btn-success" onclick="Pomodoro.Timer.startSession()" title="Start">
+						<i class="fa fa-play"></i> Start</button>
+						
+					<button name="stop" type="button" class="btn btn-danger hidden" onclick="Pomodoro.Timer.stopSession()" title="Stop">
+						<i class="fa fa-stop"></i> Stop</button>
+						
+					<button name="restart" type="button" class="btn btn-success hidden" onclick="Pomodoro.Timer.restartSession()" title="Restart">
+						<i class="fa fa-refresh"></i> Restart</button>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

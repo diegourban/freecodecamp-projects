@@ -1,0 +1,22 @@
+$text-align: center;
+
+body {
+	font-family: 'Quicksand', sans-serif;
+}
+
+header {
+	text-align: $text-align;
+}
+
+section {
+	text-align: $text-align;
+}
+
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+
+footer {
+	text-align: $text-align;
+}
