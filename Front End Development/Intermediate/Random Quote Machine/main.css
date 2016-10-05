@@ -1,0 +1,19 @@
+body {
+	font-family: 'Quicksand', sans-serif;
+}
+
+section {
+	text-align: center;
+}
+
+.row {
+	padding: 30px;
+}
+
+blockquote {
+	font-size: 3em;
+}
+
+footer {
+	text-align: center;
+}
