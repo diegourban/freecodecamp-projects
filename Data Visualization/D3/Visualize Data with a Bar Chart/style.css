@@ -28,15 +28,6 @@ p {
   margin: 0;
 }
 
-.chart .mouseover {
-  fill: lightsteelblue;
-}
-
-.chart rect,
-.chart .mouseout {
-  fill: steelblue;
-}
-
 .chart text {
   fill: black;
   font: 10px sans-serif;
@@ -58,8 +49,8 @@ p {
   background-color: white;
   margin: 40px auto;
   padding: 0px;
-  width: 1050px;
-  height: 640px;
+  width: 1000px;
+  height: 680px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
 }
 
@@ -85,4 +76,12 @@ p {
 .year {
   font-size: 0.8em;
   font-weight: normal;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: lightsteelblue;;
 }
