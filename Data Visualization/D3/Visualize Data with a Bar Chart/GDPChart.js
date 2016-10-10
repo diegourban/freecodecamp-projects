@@ -17,6 +17,10 @@ GDPChart.BarChart = (function(){
   
     $.getJSON(url).done(function(jsonData) {
 	    var data = jsonData.data;
+
+      d3.select(".description")
+        .append("text")
+        .text(jsonData.description);
 	  
 	    var margin = {top: 20, right: 30, bottom: 50, left: 60},
 	      width = 1000 - margin.left - margin.right,
@@ -25,7 +29,7 @@ GDPChart.BarChart = (function(){
 	    var barWidth = Math.ceil(width / data.length);
 	  
 	    minDate = new Date(data[0][0]);
-      maxDate = new Date(data[274][0]);
+      maxDate = new Date(data[data.length-1][0]);
 
       var x = d3.time.scale()
         .domain([minDate, maxDate])
@@ -39,8 +43,6 @@ GDPChart.BarChart = (function(){
 	    var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(d3.time.years, 5);;
   
       var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10, "");
-
-      var infobox = d3.select(".infobox");
 
       var div = d3.select(".card").append("div")
         .attr("class", "tooltip")
@@ -112,3 +114,4 @@ GDPChart.BarChart = (function(){
 	  }
   };
 })();
+
