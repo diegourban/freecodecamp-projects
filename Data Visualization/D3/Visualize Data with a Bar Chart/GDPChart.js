@@ -22,9 +22,9 @@ GDPChart.BarChart = (function(){
         .append("text")
         .text(jsonData.description);
 	  
-	    var margin = {top: 20, right: 30, bottom: 50, left: 60},
+	    var margin = {top: 20, right: 30, bottom: 50, left: 90},
 	      width = 1000 - margin.left - margin.right,
-	      height = 600 - margin.top - margin.bottom;
+	      height = 550 - margin.top - margin.bottom;
     
 	    var barWidth = Math.ceil(width / data.length);
 	  
@@ -59,7 +59,7 @@ GDPChart.BarChart = (function(){
   	    .attr("transform", "translate(0," + height + ")")
   	    .call(xAxis)
       .append("text")
-        .attr("x", width/2)
+        .attr("x", width / 2)
         .attr("y", 40)
         .style("text-anchor", "end")
         .text("Years");
@@ -69,10 +69,11 @@ GDPChart.BarChart = (function(){
   	    .call(yAxis)
   	  .append("text")
   	    .attr("transform", "rotate(-90)")
-  	    .attr("y", 6)
-  	    .attr("dy", ".71em")
+  	    .attr("y", 0)
+        .attr("x",  (height / 3) * -1)
+  	    .attr("dy", "-4em")
   	    .style("text-anchor", "end")
-  	    .text("Gross Domestic Product, USA");
+  	    .text("Gross Domestic Product");
       
       chart.selectAll(".bar")
   	    .data(data)

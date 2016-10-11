@@ -79,7 +79,7 @@ p {
 }
 
 .bar {
-  fill: steelblue;
+  fill: rgb(0,82,165);
 }
 
 .bar:hover {
