@@ -17,14 +17,10 @@ GDPChart.BarChart = (function(){
   
     $.getJSON(url).done(function(jsonData) {
 	    var data = jsonData.data;
-
-      d3.select(".description")
-        .append("text")
-        .text(jsonData.description);
 	  
 	    var margin = {top: 20, right: 30, bottom: 50, left: 90},
 	      width = 1000 - margin.left - margin.right,
-	      height = 550 - margin.top - margin.bottom;
+	      height = 500 - margin.top - margin.bottom;
     
 	    var barWidth = Math.ceil(width / data.length);
 	  
@@ -44,11 +40,11 @@ GDPChart.BarChart = (function(){
   
       var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10, "");
 
-      var div = d3.select(".card").append("div")
-        .attr("class", "tooltip")
+      var div = d3.select(".chart").append("div")
+        .attr("class", "tooltip-box")
         .style("opacity", 0);
   
-      var chart = d3.select(".chart")
+      var chart = d3.select("svg")
   	    .attr("width", width + margin.left + margin.right)
   	    .attr("height", height + margin.top + margin.bottom)
         .append("g")

@@ -3,35 +3,44 @@ body {
 }
 
 .chart {
-  margin: 0px auto;
-  padding: 0px;
   background-color: white;
-}
-
-.description {
-  font-size: 12px;
-  font-family: sans-serif;
-  color: steelblue;
-  padding: 20px;
-  text-align: center;
+  margin: 40px auto;
+  padding: 0px;
+  width: 1000px;
+  height: 580px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
 }
 
 .title {
   font-size: 2.5em;
   font-family: sans-serif;
-  color: steelblue;
+  color: rgb(0,82,165);
   text-align: center;
   padding: 15px 0px 5px 0px;
 }
 
-p {
-  margin: 0;
+svg {
+  margin: 0px auto;
+  padding: 0px;
+  background-color: white;
 }
 
-.chart text {
+svg text {
   fill: black;
   font: 10px sans-serif;
   text-anchor: end;
+}
+
+.bar {
+  fill: rgb(0,82,165);
+}
+
+.bar:hover {
+  fill: rgba(0,82,165, 0.3);
+}
+
+p {
+  margin: 0;
 }
 
 .axis text {
@@ -45,16 +54,7 @@ p {
   shape-rendering: crispEdges;
 }
 
-.card {
-  background-color: white;
-  margin: 40px auto;
-  padding: 0px;
-  width: 1000px;
-  height: 680px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
-}
-
-.tooltip {
+.tooltip-box {
   position: absolute;
   text-align: left;
   width: auto;
@@ -76,12 +76,4 @@ p {
 .year {
   font-size: 0.8em;
   font-weight: normal;
-}
-
-.bar {
-  fill: rgb(0,82,165);
-}
-
-.bar:hover {
-  fill: lightsteelblue;;
 }
