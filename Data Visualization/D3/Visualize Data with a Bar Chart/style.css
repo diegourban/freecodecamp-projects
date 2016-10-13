@@ -65,7 +65,7 @@ p {
   border-radius: 5px;
   pointer-events: none;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-  background-color: lightsteelblue;
+  background-color: rgba(255,255,255, 0.7);
 }
 
 .amount {

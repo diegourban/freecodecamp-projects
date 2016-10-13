@@ -36,7 +36,7 @@ GDPChart.BarChart = (function(){
           return d[1];
         })]);
 
-	    var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(d3.time.years, 5);;
+	    var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(d3.time.years, 5);
   
       var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10, "");
 
