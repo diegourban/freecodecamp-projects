@@ -11,14 +11,14 @@ BicycleRacingTimesChart.Scatterplot = (function(){
   
   function drawChart() { 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+    width = 760 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
-        .range([0, width]);
+        .range([width, 0]);
 
     var y = d3.scale.linear()
-        .range([height, 0]);
+        .range([0, height]);
 
     var color = d3.scale.category10();
 
@@ -40,12 +40,12 @@ BicycleRacingTimesChart.Scatterplot = (function(){
       if (error) throw error;
 
       data.forEach(function(d) {
-        d.Ranking = +d.Ranking;
+        d.Place = +d.Place;
         d.Seconds = +d.Seconds;
       });
 
       x.domain(d3.extent(data, function(d) { return d.Seconds; })).nice();
-      y.domain(d3.extent(data, function(d) { return d.Ranking; })).nice();
+      y.domain(d3.extent(data, function(d) { return d.Place; })).nice();
 
       svg.append("g")
           .attr("class", "x axis")
@@ -56,7 +56,7 @@ BicycleRacingTimesChart.Scatterplot = (function(){
           .attr("x", width)
           .attr("y", -6)
           .style("text-anchor", "end")
-          .text("Seconds (cm)");
+          .text("Time (seconds)");
 
       svg.append("g")
           .attr("class", "y axis")
@@ -75,8 +75,8 @@ BicycleRacingTimesChart.Scatterplot = (function(){
           .attr("class", "dot")
           .attr("r", 3.5)
           .attr("cx", function(d) { return x(d.Seconds); })
-          .attr("cy", function(d) { return y(d.Ranking); })
-          .style("fill", function(d) { return color(2); });
+          .attr("cy", function(d) { return y(d.Place); });
+          //.style("fill", function(d) { return color(2); });
 
       var legend = svg.selectAll(".legend")
           .data(color.domain())
