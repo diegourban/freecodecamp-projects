@@ -10,8 +10,8 @@ BicycleRacingTimesChart.Scatterplot = (function(){
   var url = config.data_url;
   
   function drawChart() { 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 760 - margin.left - margin.right,
+    var margin = {top: 25, right: 25, bottom: 25, left: 25},
+    width = 650 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
@@ -25,6 +25,10 @@ BicycleRacingTimesChart.Scatterplot = (function(){
     var xAxis = d3.axisBottom(x);
 
     var yAxis = d3.axisLeft(y);
+
+    var div = d3.select(".chart").append("div")
+        .attr("class", "tooltip-box")
+        .style("opacity", 0);
 
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -72,9 +76,24 @@ BicycleRacingTimesChart.Scatterplot = (function(){
           .data(data)
         .enter().append("circle")
           .attr("class", "dot")
-          .attr("r", 3.5)
+          .attr("r", 5)
           .attr("cx", function(d) { return x(d.Seconds); })
-          .attr("cy", function(d) { return y(d.Place); });
+          .attr("cy", function(d) { return y(d.Place); })
+          .style("fill", function(d) { return color(d.Doping ? 'Doping' : 'No Doping'); })
+        .on("mouseover", function(d) {
+          console.log(d);
+          div.transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          div.html("<span>" + d.Name + ": " + d.Nationality + "</span><br>" + "<span>Year: " + d.Year + ", Time: " + d.Time + "</span><br>")
+            .style("left", (d3.event.pageX + 10) + "px")
+            .style("top", (d3.event.pageY - 25) + "px");
+        })
+        .on("mouseout", function(d) {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
 
       var legend = svg.selectAll(".legend")
           .data(color.domain())
@@ -82,17 +101,18 @@ BicycleRacingTimesChart.Scatterplot = (function(){
           .attr("class", "legend")
           .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-      legend.append("rect")
-          .attr("x", width - 18)
-          .attr("width", 18)
-          .attr("height", 18)
+      legend.append("circle")
+          .attr("cx", 50)
+          .attr("cy", 10)
+          .attr("r", 5)
           .style("fill", color);
 
       legend.append("text")
-          .attr("x", width - 24)
-          .attr("y", 9)
-          .attr("dy", ".35em")
-          .style("text-anchor", "end")
+          .attr("x", 60)
+          .attr("y", 10)
+          .attr("dx", "-.2em")
+          .attr("dy", ".3em")
+          .style("text-anchor", "begin")
           .text(function(d) { return d; });
     });
   }  
