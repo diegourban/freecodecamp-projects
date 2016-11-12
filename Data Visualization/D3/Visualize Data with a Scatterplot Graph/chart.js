@@ -10,9 +10,9 @@ BicycleRacingTimesChart.Scatterplot = (function(){
   var url = config.data_url;
   
   function drawChart() { 
-    var margin = {top: 25, right: 25, bottom: 25, left: 25},
-    width = 650 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    var margin = {top: 25, right: 120, bottom: 25, left: 25},
+    width = 750 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
         .range([width, 0]);
@@ -26,11 +26,16 @@ BicycleRacingTimesChart.Scatterplot = (function(){
 
     var yAxis = d3.axisLeft(y);
 
+    d3.select(".chart").append("div")
+        .attr("class", "title")
+        .text("Doping in Professional Bicycle Racing");
+
     var div = d3.select(".chart").append("div")
         .attr("class", "tooltip-box")
         .style("opacity", 0);
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select(".chart").append("svg")
+        .attr("class", "graph")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -85,15 +90,30 @@ BicycleRacingTimesChart.Scatterplot = (function(){
           div.transition()
             .duration(200)
             .style("opacity", 0.9);
-          div.html("<span>" + d.Name + ": " + d.Nationality + "</span><br>" + "<span>Year: " + d.Year + ", Time: " + d.Time + "</span><br>")
-            .style("left", (d3.event.pageX + 10) + "px")
-            .style("top", (d3.event.pageY - 25) + "px");
+          var html = "<span>" + d.Name + ": " + d.Nationality + "</span><br>" + "<span>Year: " + d.Year + ", Time: " + d.Time + "</span><br>";
+          if(d.Doping != "") {
+            html += "<br><span>" + d.Doping + "</span>";
+          }
+          div.html(html)
+            .style("left", (d3.event.pageX + 20) + "px")
+            .style("top", (d3.event.pageY) + "px");
         })
         .on("mouseout", function(d) {
           div.transition()
             .duration(500)
             .style("opacity", 0);
         });
+
+      svg.selectAll(".dotLabel")
+          .data(data)
+        .enter().append("text")
+          .attr("class", "dotLabel")
+          .attr("x", function(d) { return x(d.Seconds); })
+          .attr("y", function(d) { return y(d.Place); })
+          .text(function(d) {
+            return d.Name;
+          })
+          .attr("transform", "translate(15,+4)");
 
       var legend = svg.selectAll(".legend")
           .data(color.domain())
@@ -124,3 +144,4 @@ BicycleRacingTimesChart.Scatterplot = (function(){
   };
 })();
 
+BicycleRacingTimesChart.Scatterplot.draw();

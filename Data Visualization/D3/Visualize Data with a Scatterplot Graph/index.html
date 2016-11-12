@@ -5,20 +5,18 @@
     <title>FreeCodeCamp: Visualize Data with a Scatterplot Graph</title>
 		
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="vendors/bootstrap/css/bootstrap.css">
   </head>
 
   <body>
-    <div class="chart">
-      <div class="title">Doping in Professional Bicycle Racing</div>
-      <svg class="graph"></svg>
+    <div class="container">
+      <div class="main">
+        <div class="chart"></div>
+      </div>
     </div>
-
+    
     <script src="vendors/jquery/jquery-3.1.1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="chart.js"></script>
-
-    <script>
-      BicycleRacingTimesChart.Scatterplot.draw();
-    </script>
   </body>
 </html>
