@@ -35,9 +35,11 @@ BicycleRacingTimesChart.Scatterplot = (function(){
     d3.json(url, function(error, data) {
       if (error) throw error;
 
+      var fastestTimeInSeconds = d3.min(data.map(function (d) { return d.Seconds; }));
+
       data.forEach(function(d) {
         d.Place = +d.Place;
-        d.Seconds = +d.Seconds;
+        d.Seconds = +d.Seconds - fastestTimeInSeconds;
       });
 
       x.domain(d3.extent(data, function(d) { return d.Seconds; })).nice();
@@ -46,18 +48,19 @@ BicycleRacingTimesChart.Scatterplot = (function(){
       svg.append("g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + height + ")")
-          .call(xAxis)
-        .append("text")
+          .call(xAxis);
+      svg.append("text")
           .attr("class", "label")
           .attr("x", width)
-          .attr("y", -6)
+          .attr("y", height)
+          .attr("dy", "-.51em")
           .style("text-anchor", "end")
-          .text("Time (seconds)");
+          .text("Time Behind Fastest (seconds)");
 
       svg.append("g")
           .attr("class", "y axis")
-          .call(yAxis)
-        .append("text")
+          .call(yAxis);
+      svg.append("text")
           .attr("class", "label")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
@@ -72,7 +75,6 @@ BicycleRacingTimesChart.Scatterplot = (function(){
           .attr("r", 3.5)
           .attr("cx", function(d) { return x(d.Seconds); })
           .attr("cy", function(d) { return y(d.Place); });
-          //.style("fill", function(d) { return color(2); });
 
       var legend = svg.selectAll(".legend")
           .data(color.domain())
