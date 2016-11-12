@@ -14,21 +14,17 @@ BicycleRacingTimesChart.Scatterplot = (function(){
     width = 760 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-    var x = d3.scale.linear()
+    var x = d3.scaleLinear()
         .range([width, 0]);
 
-    var y = d3.scale.linear()
+    var y = d3.scaleLinear()
         .range([0, height]);
 
-    var color = d3.scale.category10();
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
+    var xAxis = d3.axisBottom(x);
 
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left");
+    var yAxis = d3.axisLeft(y);
 
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
