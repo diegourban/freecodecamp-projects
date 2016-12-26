@@ -19,7 +19,7 @@ GlobalTemperatureChart.HeatMap = (function(){
       buckets = colors.length,
       months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       times = ["1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12a", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p", "12p"];
-
+    
     var svg = d3.select(".chart").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -36,6 +36,7 @@ GlobalTemperatureChart.HeatMap = (function(){
         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
         .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "monthLabel mono axis axis-workweek" : "dayLabel mono axis"); });
 
+    /*
     var timeLabels = svg.selectAll(".timeLabel")
       .data(times)
       .enter().append("text")
@@ -45,7 +46,7 @@ GlobalTemperatureChart.HeatMap = (function(){
         .style("text-anchor", "middle")
         .attr("transform", "translate(" + gridSize / 2 + ", -6)")
         .attr("class", function(d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
-
+    */
     d3.json(url, function(error, data) {
       if (error) throw error;
 
@@ -55,27 +56,47 @@ GlobalTemperatureChart.HeatMap = (function(){
       let lowVariance = d3.min(temperatures, d => d.variance);
       let highVariance = d3.max(temperatures, d => d.variance);
 
+      var yearData = temperatures.map(o => o.year);
+      yearData = yearData.filter(function(v, i) {
+        return yearData.indexOf(v) == i;
+      });
+
+      var gridWidth = width / yearData.length;
+      var gridHeight = height / months.length;
+
+      var lowYear = d3.min(yearData);
+      var highYear = d3.max(yearData);
+
+      var minDate = new Date(lowYear, 0);
+      var maxDate = new Date(highYear, 0);
+
+      var xScale = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
+      var xAxis = d3.axisBottom().scale(xScale);
+
       var colorScale = d3.scaleQuantile()
           .domain([baseTemperature + lowVariance, baseTemperature + highVariance])
           .range(colors);
 
-      var cards = svg.selectAll(".years")
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      var temps = svg.selectAll(".years")
           .data(temperatures, function(d) {return d.year+':'+d.month;})
         .enter().append("rect")
-          .attr("x", function(d) { return (d.year - 1) * gridSize; })
-          .attr("y", function(d) { return (d.month - 1) * gridSize; })
-          .attr("rx", 4)
-          .attr("ry", 4)
+          .attr("x", function(d) { return (d.year - lowYear) * gridWidth; })
+          .attr("y", function(d) { return (d.month - 1) * gridHeight; })
           .attr("class", "hour bordered")
-          .attr("width", gridSize)
-          .attr("height", gridSize)
+          .attr("width", gridWidth)
+          .attr("height", gridHeight)
           .style("fill", colors[0]);
 
       var t = d3.transition().duration(500).ease(d3.easeLinear);
 
-      cards.transition(t).style("fill", function(d) { return colorScale(d.value); });
+      temps.transition(t).style("fill", function(d) { return colorScale(d.variance + baseTemperature); });
       
-      cards.exit().remove();
+      temps.exit().remove();
 
       var legend = svg.selectAll(".legend")
             .data([0].concat(colorScale.quantiles()), function(d) { return d; })
@@ -84,7 +105,7 @@ GlobalTemperatureChart.HeatMap = (function(){
 
       legend.append("rect")
         .attr("x", function(d, i) { return legendElementWidth * i; })
-        .attr("y", height)
+        .attr("y", height + 50)
         .attr("width", legendElementWidth)
         .attr("height", gridSize / 2)
         .style("fill", function(d, i) { return colors[i]; });
@@ -93,7 +114,7 @@ GlobalTemperatureChart.HeatMap = (function(){
         .attr("class", "mono")
         .text(function(d) { return "≥ " + Math.round(d); })
         .attr("x", function(d, i) { return legendElementWidth * i; })
-        .attr("y", height + gridSize);
+        .attr("y", height + gridSize + 50);
 
       legend.exit().remove();
     });
