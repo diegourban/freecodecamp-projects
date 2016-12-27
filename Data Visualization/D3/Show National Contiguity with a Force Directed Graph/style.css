@@ -1,0 +1,35 @@
+body {
+  font-family: "Crimson Text", "Times New Roman", serif;
+  font-size: 80%;
+}
+
+.main {
+  padding-top: 40px;
+}
+
+.title {
+	font-size: 2em;
+  text-align: center;
+}
+
+.graph {
+  display: block;
+  margin: auto;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.links line {
+  stroke: #000;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
