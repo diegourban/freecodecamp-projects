@@ -20,6 +20,14 @@ GlobalTemperatureChart.HeatMap = (function(){
       months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       times = ["1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12a", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p", "12p"];
     
+    d3.select(".chart").append("div")
+        .attr("class", "title")
+        .text("Monthly Global Land-Surface Temperature");
+
+    var div = d3.select(".chart").append("div")
+        .attr("class", "tooltip-box")
+        .style("opacity", 0);
+
     var svg = d3.select(".chart").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -36,17 +44,6 @@ GlobalTemperatureChart.HeatMap = (function(){
         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
         .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "monthLabel mono axis axis-workweek" : "dayLabel mono axis"); });
 
-    /*
-    var timeLabels = svg.selectAll(".timeLabel")
-      .data(times)
-      .enter().append("text")
-        .text(function(d) { return d; })
-        .attr("x", function(d, i) { return i * gridSize; })
-        .attr("y", 0)
-        .style("text-anchor", "middle")
-        .attr("transform", "translate(" + gridSize / 2 + ", -6)")
-        .attr("class", function(d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
-    */
     d3.json(url, function(error, data) {
       if (error) throw error;
 
@@ -70,27 +67,50 @@ GlobalTemperatureChart.HeatMap = (function(){
       var minDate = new Date(lowYear, 0);
       var maxDate = new Date(highYear, 0);
 
-      var xScale = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
+      var xScale = d3.scaleTime()
+        .domain([minDate, maxDate])
+        .range([0, width]);
       var xAxis = d3.axisBottom().scale(xScale);
 
       var colorScale = d3.scaleQuantile()
-          .domain([baseTemperature + lowVariance, baseTemperature + highVariance])
-          .range(colors);
+        .domain([baseTemperature + lowVariance, baseTemperature + highVariance])
+        .range(colors);
 
       svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+      svg.append("text")
+        .attr("class", "label")
+        .attr("x", width)
+        .attr("y", height)
+        .attr("dy", "1em")
+        .style("text-anchor", "end")
+        .text("Years");
 
       var temps = svg.selectAll(".years")
-          .data(temperatures, function(d) {return d.year+':'+d.month;})
+          .data(temperatures, function(d) {return d.year + ':' + d.month;})
         .enter().append("rect")
           .attr("x", function(d) { return (d.year - lowYear) * gridWidth; })
           .attr("y", function(d) { return (d.month - 1) * gridHeight; })
           .attr("class", "hour bordered")
           .attr("width", gridWidth)
           .attr("height", gridHeight)
-          .style("fill", colors[0]);
+          .style("fill", colors[0])
+        .on("mouseover", function(d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          var html = "<span>" + d.year + " - " + months[d.month - 1] + "</span><br>" + "<span>Variance: " + d.variance + "</span><br>";
+          div.html(html)
+            .style("left", (d3.event.pageX + 20) + "px")
+            .style("top", (d3.event.pageY) + "px");
+        })
+        .on("mouseout", function(d) {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
 
       var t = d3.transition().duration(500).ease(d3.easeLinear);
 
