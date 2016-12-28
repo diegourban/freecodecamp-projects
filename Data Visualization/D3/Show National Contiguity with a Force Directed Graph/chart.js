@@ -12,32 +12,34 @@ NationalContiguity.ForceDirectedGraph = (function(){
   var simulation;
   
   function drawChart() { 
-    var margin = { top: 50, right: 0, bottom: 100, left: 80 }, width = 960, height = 600;
+    var margin = { top: 50, right: 0, bottom: 100, left: 80 }, width = 1000, height = 800;
 
     d3.select(".chart").append("div")
         .attr("class", "title")
         .text("Force Directed Graph of State Contiguity");
 
     var svg = d3.select(".chart").append("svg")
+      .attr("class", "graph")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom);
 
-    var color = d3.scaleOrdinal(d3.schemeCategory20);
-
     simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
-        .force("charge", d3.forceManyBody())
+        .force("charge", d3.forceManyBody().strength(-10))
         .force("center", d3.forceCenter(width / 2, height / 2));
 
-    d3.json("miserables.json", function(error, graph) {
+    d3.json(url, function(error, graph) {
       if (error) throw error;
+
+      graph.nodes.forEach(function(d,i) {
+        d.id = i;
+      });
 
       var link = svg.append("g")
           .attr("class", "links")
         .selectAll("line")
         .data(graph.links)
-        .enter().append("line")
-          .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+        .enter().append("line");
 
       var node = svg.append("g")
           .attr("class", "nodes")
@@ -45,14 +47,13 @@ NationalContiguity.ForceDirectedGraph = (function(){
         .data(graph.nodes)
         .enter().append("circle")
           .attr("r", 5)
-          .attr("fill", function(d) { return color(d.group); })
           .call(d3.drag()
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended));
 
       node.append("title")
-          .text(function(d) { return d.id; });
+          .text(function(d) { return d.country; });
 
       simulation
           .nodes(graph.nodes)

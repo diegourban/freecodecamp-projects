@@ -15,6 +15,7 @@ body {
 .graph {
   display: block;
   margin: auto;
+  background-color: yellow;
 }
 
 .axis path,
@@ -31,5 +32,5 @@ body {
 
 .nodes circle {
   stroke: #fff;
-  stroke-width: 1.5px;
+  stroke-width: 0.5px;
 }
