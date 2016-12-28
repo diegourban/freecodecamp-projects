@@ -1,7 +1,7 @@
 var NationalContiguity = NationalContiguity || {};
 
 NationalContiguity.Config = {
-  'data_url' : 'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json'
+  'data_url' : 'https://raw.githubusercontent.com/DealPete/forceDirected/master/countries.json'
 };
 
 NationalContiguity.ForceDirectedGraph = (function(){
