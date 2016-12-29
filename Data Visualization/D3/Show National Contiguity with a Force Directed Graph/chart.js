@@ -15,8 +15,8 @@ NationalContiguity.ForceDirectedGraph = (function(){
     var margin = { top: 50, right: 0, bottom: 100, left: 80 }, width = 1000, height = 800;
 
     d3.select(".chart").append("div")
-        .attr("class", "title")
-        .text("Force Directed Graph of State Contiguity");
+      .attr("class", "title")
+      .text("Force Directed Graph of State Contiguity");
 
     var svg = d3.select(".chart").append("svg")
       .attr("class", "graph")
@@ -24,9 +24,9 @@ NationalContiguity.ForceDirectedGraph = (function(){
       .attr("height", height + margin.top + margin.bottom);
 
     simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id(function(d) { return d.id; }))
-        .force("charge", d3.forceManyBody().strength(-10))
-        .force("center", d3.forceCenter(width / 2, height / 2));
+      .force("link", d3.forceLink().id(function(d) { return d.id; }))
+      .force("charge", d3.forceManyBody().strength(-5))
+      .force("center", d3.forceCenter(width / 2, height / 2));
 
     d3.json(url, function(error, graph) {
       if (error) throw error;
@@ -53,33 +53,33 @@ NationalContiguity.ForceDirectedGraph = (function(){
               .on("end", dragended));
 
       node.append("title")
-          .text(function(d) { return d.country; });
+        .text(function(d) { return d.country; });
 
       simulation
-          .nodes(graph.nodes)
-          .on("tick", ticked);
+        .nodes(graph.nodes)
+        .on("tick", ticked);
 
       simulation.force("link")
-          .links(graph.links);
+        .links(graph.links);
 
       function ticked() {
         link
-            .attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
+          .attr("x1", function(d) { return d.source.x; })
+          .attr("y1", function(d) { return d.source.y; })
+          .attr("x2", function(d) { return d.target.x; })
+          .attr("y2", function(d) { return d.target.y; });
 
         node
-            .attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
       }
     });
   } 
 
   function dragstarted(d) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
+    if (!d3.event.active) simulation.alphaTarget(0.1).restart();
+    d.fx = d.x;
+    d.fy = d.y;
   }
 
   function dragged(d) {
