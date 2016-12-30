@@ -12,7 +12,7 @@ NationalContiguity.ForceDirectedGraph = (function(){
   var simulation;
   
   function drawChart() { 
-    var margin = { top: 50, right: 0, bottom: 100, left: 80 }, width = 1000, height = 800;
+    var margin = { top: 50, right: 0, bottom: 100, left: 80 }, width = 800, height = 600;
 
     d3.select(".chart").append("div")
       .attr("class", "title")
@@ -43,10 +43,10 @@ NationalContiguity.ForceDirectedGraph = (function(){
 
       var node = svg.append("g")
           .attr("class", "nodes")
-        .selectAll("circle")
+        .selectAll("image")
         .data(graph.nodes)
-        .enter().append("circle")
-          .attr("r", 5)
+        .enter().append("image")
+          .attr("class", d => "flag")
           .call(d3.drag()
               .on("start", dragstarted)
               .on("drag", dragged)
@@ -68,6 +68,11 @@ NationalContiguity.ForceDirectedGraph = (function(){
           .attr("y1", function(d) { return d.source.y; })
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; });
+
+        node
+          .attr("x", d => (d.x - 8))
+          .attr("y", d => (d.y - 5))
+          .attr("xlink:href", d => "flags/" + d.code + ".svg");
 
         node
           .attr("cx", function(d) { return d.x; })
