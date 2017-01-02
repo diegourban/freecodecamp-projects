@@ -25,7 +25,7 @@ NationalContiguity.ForceDirectedGraph = (function(){
 
     simulation = d3.forceSimulation()
       .force("link", d3.forceLink().id(function(d) { return d.id; }))
-      .force("charge", d3.forceManyBody().distanceMin(10).distanceMax(100))
+      .force("charge", d3.forceManyBody().distanceMin(40).distanceMax(100))
       .force("center", d3.forceCenter(width / 2, height / 2));
 
     d3.json(url, function(error, graph) {

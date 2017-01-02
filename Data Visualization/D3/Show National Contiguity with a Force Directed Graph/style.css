@@ -15,6 +15,7 @@ body {
 .graph {
   display: block;
   margin: auto;
+  background-color: grey;
 }
 
 .links line {
