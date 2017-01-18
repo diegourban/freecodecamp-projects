@@ -9,7 +9,7 @@
   "author": "diegourban",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "strftime": "^0.10.0"
   }
 }
-
