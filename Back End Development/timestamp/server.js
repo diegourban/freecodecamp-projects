@@ -2,7 +2,7 @@ var strftime = require('strftime')
 var express = require('express')
 var app = express()
 
-app.get('/:time', function(req, res) {
+app.get('/:time?', function(req, res) {
     // try to handle as timestamp
     var date = new Date(parseInt(req.params.time) * 1000)
     var valid = date.getTime() > 0
