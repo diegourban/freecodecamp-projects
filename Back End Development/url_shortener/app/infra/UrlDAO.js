@@ -1,20 +1,20 @@
 var MongoClient = require('mongodb').MongoClient
 
 // Connection URL
-var url = 'mongodb://localhost:27017/fcc';
+var connectionUrl = 'mongodb://localhost:27017/fcc';
 
 function insert(url) {
     // Use connect method to connect to the Server
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(connectionUrl, function(err, db) {
         if (err) throw err;
         console.log("Connected correctly to server");
-        insertURL(db, function() {
+        insertURL(url, db, function() {
             db.close();
         });
     });
 }
 
-var insertURL = function(db, callback) {
+var insertURL = function(url, db, callback) {
     // Get the documents collection
     var collection = db.collection('urls');
     // Insert some documents
