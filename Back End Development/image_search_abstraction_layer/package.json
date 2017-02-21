@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "consign": "^0.1.2",
-    "express": "^4.14.1"
+    "express": "^4.14.1",
+    "google-search": "0.0.5",
+    "mongoose": "^4.8.4"
   }
 }

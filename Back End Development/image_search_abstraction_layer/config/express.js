@@ -5,7 +5,9 @@ module.exports = function() {
     var app = express();
     
     consign({cwd: 'app'})
-    .include('routes')
+    .include('models')
+    .then('api')
+    .then('routes')
     .into(app);
     
     return app;
