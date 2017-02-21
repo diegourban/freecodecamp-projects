@@ -1,4 +1,4 @@
-var app = require('./app/config/custom-express')();
+var app = require('./config/custom-express')();
 
 var port = 8080;
 

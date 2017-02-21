@@ -4,8 +4,8 @@ var consign = require('consign');
 module.exports = function() {
     var app = express();
     
-    consign()
-    .include('app/controllers')
+    consign({cwd: 'app'})
+    .include('routes')
     .into(app);
     
     return app;
