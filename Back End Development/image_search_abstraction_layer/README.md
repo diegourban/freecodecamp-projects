@@ -11,5 +11,5 @@ Image Search Abstraction Layer Microservice.
 * `npm install` - to install the dependencies
 
 ## Usage
-* ` mongod --dbpath /data/db --smallfiles` - to start MongoDB
+* `mongod --dbpath /data/db --smallfiles` - to start MongoDB
 * `node app.js` - start the microservice
