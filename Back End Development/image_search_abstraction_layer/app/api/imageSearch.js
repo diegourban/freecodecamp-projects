@@ -8,10 +8,13 @@ var ImageSearchHistory = mongoose.model('ImageSearchHistory');
 api.search = function(req, res) {
     console.log('Image search request received');
     var term = req.params.search;
+    var offset = 1;
     console.log('Search parameter: ' + term);
     if(req.query.offset) {
         console.log('Offset: ' + req.query.offset);  
+        offset = req.query.offset;
     }
+    offset = Math.max(1, offset);
     
     var searchHistory = new ImageSearchHistory({ term: term, when : new Date() });
     
@@ -26,7 +29,7 @@ api.search = function(req, res) {
     
     var searchResult = [];
     var client = new ImagesClient('010979884837995675985:b4umcs_jkpw', 'AIzaSyA3mT9h8VfXMe-ctGxs7y1Ca31vx-fMgEQ');
-    client.search(term)
+    client.search(term, {page: offset})
     .then(function (images) {
         images.forEach(function(image) {
             var imageSearch = {url: image.url, thumbnail: image.thumbnail.url};
@@ -41,7 +44,7 @@ api.search = function(req, res) {
 
 api.latest = function(req, res) {
     console.log('Latest image search request received');
-    ImageSearchHistory.find({})
+    ImageSearchHistory.find().sort({when: -1}).limit(10)
     .then(function(result) {
         var latest = [];
         result.forEach(function(imageSearchHistory) {
